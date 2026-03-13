@@ -5,413 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Para ti 💌</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --rose: #c8445a;
-      --blush: #f2a7b3;
-      --deep: #1a0a10;
-      --mid: #2e1020;
-      --cream: #fdf0f2;
-      --gold: #d4a574;
-    }
-
-    body {
-      background: var(--deep);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Lato', sans-serif;
-      overflow: hidden;
-      cursor: default;
-      position: relative;
-    }
-
-    /* Atmospheric background */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-              radial-gradient(ellipse 80% 60% at 50% 100%, #3d0f22 0%, transparent 70%),
-              radial-gradient(ellipse 60% 40% at 20% 20%, #2a0a18 0%, transparent 60%),
-              radial-gradient(ellipse 50% 50% at 80% 10%, #1f0815 0%, transparent 50%);
-      z-index: 0;
-    }
-
-    /* Floating petals */
-    .petals-container {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
-      overflow: hidden;
-    }
-
-    .petal {
-      position: absolute;
-      top: -20px;
-      font-size: 12px;
-      opacity: 0;
-      animation: fall linear infinite;
-      user-select: none;
-    }
-
-    @keyframes fall {
-      0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
-      5%   { opacity: 0.6; }
-      90%  { opacity: 0.3; }
-      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-    }
-
-    /* Main content */
-    .scene {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2rem;
-    }
-
-    .subtitle {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-weight: 300;
-      color: var(--blush);
-      font-size: clamp(1rem, 3vw, 1.3rem);
-      opacity: 0;
-      letter-spacing: 0.05em;
-      animation: fadeIn 1.5s ease 0.5s forwards;
-    }
-
-    @keyframes fadeIn {
-      to { opacity: 0.8; }
-    }
-
-    /* Heart wrapper */
-    .heart-wrapper {
-      position: relative;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      animation: fadeIn 1.5s ease 1s forwards;
-    }
-
-    .heart-glow {
-      position: absolute;
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(78,203,110,0.4) 0%, transparent 70%);
-      animation: pulse-glow 2.5s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    @keyframes pulse-glow {
-      0%, 100% { transform: scale(1); opacity: 0.7; }
-      50%       { transform: scale(1.25); opacity: 1; }
-    }
-
-    .heart-svg {
-      width: 160px;
-      height: 160px;
-      filter: drop-shadow(0 0 20px rgba(78,203,110,0.8));
-      transition: transform 0.15s ease;
-      animation: heartbeat 2.5s ease-in-out infinite;
-      position: relative;
-      z-index: 1;
-    }
-
-    @keyframes heartbeat {
-      0%, 100% { transform: scale(1); }
-      14%       { transform: scale(1.1); }
-      28%       { transform: scale(1); }
-      42%       { transform: scale(1.05); }
-      70%       { transform: scale(1); }
-    }
-
-    .heart-wrapper:hover .heart-svg {
-      filter: drop-shadow(0 0 35px rgba(78,203,110,1));
-      transform: scale(1.08);
-      animation: none;
-    }
-
-    .heart-wrapper:active .heart-svg {
-      transform: scale(0.92);
-    }
-
-    .tap-hint {
-      font-family: 'Lato', sans-serif;
-      font-weight: 300;
-      font-size: 0.75rem;
-      color: var(--blush);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      opacity: 0;
-      margin-top: -0.5rem;
-      animation: blink 2.5s ease 2s infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 0; }
-      50%       { opacity: 0.5; }
-    }
-
-    /* Message display */
-    .message-area {
-      min-height: 120px;
-      max-width: 380px;
-      width: 90vw;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      position: relative;
-    }
-
-    .message-box {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-      pointer-events: none;
-    }
-
-    .message-box.visible {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-
-    .message-text {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-weight: 300;
-      font-size: clamp(1.3rem, 5vw, 1.8rem);
-      color: var(--cream);
-      line-height: 1.45;
-      text-shadow: 0 0 30px rgba(200,68,90,0.4);
-    }
-
-    .message-author {
-      font-family: 'Lato', sans-serif;
-      font-weight: 300;
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-top: 0.25rem;
-    }
-
-    /* Counter dots */
-    .dots {
-      display: flex;
-      gap: 8px;
-      margin-top: 0.5rem;
-      opacity: 0;
-      animation: fadeIn 1.5s ease 2s forwards;
-    }
-
-    .dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--rose);
-      opacity: 0.3;
-      transition: opacity 0.3s, transform 0.3s;
-    }
-
-    .dot.active {
-      opacity: 1;
-      transform: scale(1.5);
-      background: var(--blush);
-    }
-
-    /* Click burst particles */
-    .burst {
-      position: fixed;
-      pointer-events: none;
-      z-index: 10;
-    }
-
-    .burst-heart {
-      position: absolute;
-      font-size: 16px;
-      animation: burst-fly 0.9s ease-out forwards;
-      user-select: none;
-    }
-
-    @keyframes burst-fly {
-      0%   { transform: translate(0,0) scale(0.5); opacity: 1; }
-      100% { transform: translate(var(--dx), var(--dy)) scale(1.2); opacity: 0; }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Petals -->
-<div class="petals-container" id="petals"></div>
+  <!-- Petals -->
+  <div class="petals-container" id="petals"></div>
 
-<!-- Main scene -->
-<div class="scene">
-  <p class="subtitle">T'estime</p>
+  <!-- Main scene -->
+  <div class="scene">
+    <p class="subtitle">T'estime</p>
 
-  <div class="heart-wrapper" id="heartBtn" title="Toca el corazón">
-    <div class="heart-glow"></div>
-    <svg class="heart-svg" viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <radialGradient id="hg" cx="50%" cy="40%" r="60%">
-          <stop offset="0%" stop-color="#4ecb6e"/>
-          <stop offset="100%" stop-color="#1a5c2e"/>
-        </radialGradient>
-        <filter id="inner-glow">
-          <feGaussianBlur stdDeviation="3" result="blur"/>
-          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-        </filter>
-      </defs>
-      <path d="M50 85 C50 85 5 52 5 27 C5 12 16 3 28 3 C36 3 44 8 50 15 C56 8 64 3 72 3 C84 3 95 12 95 27 C95 52 50 85 50 85 Z"
-            fill="url(#hg)" filter="url(#inner-glow)"/>
-      <!-- Shine -->
-      <ellipse cx="34" cy="22" rx="9" ry="6" fill="rgba(255,255,255,0.15)" transform="rotate(-20 34 22)"/>
-    </svg>
-  </div>
-
-  <p class="tap-hint">toca el corazón</p>
-
-  <div class="message-area">
-    <div class="message-box" id="msgBox">
-      <p class="message-text" id="msgText"></p>
-      <p class="message-author" id="msgAuthor"></p>
+    <div class="heart-wrapper" id="heartBtn" title="Toca el corazón">
+      <div class="heart-glow"></div>
+      <svg class="heart-svg" viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="hg" cx="50%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#4ecb6e"/>
+            <stop offset="100%" stop-color="#1a5c2e"/>
+          </radialGradient>
+          <filter id="inner-glow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+          </filter>
+        </defs>
+        <path d="M50 85 C50 85 5 52 5 27 C5 12 16 3 28 3 C36 3 44 8 50 15 C56 8 64 3 72 3 C84 3 95 12 95 27 C95 52 50 85 50 85 Z"
+              fill="url(#hg)" filter="url(#inner-glow)"/>
+        <ellipse cx="34" cy="22" rx="9" ry="6" fill="rgba(255,255,255,0.15)" transform="rotate(-20 34 22)"/>
+      </svg>
     </div>
+
+    <p class="tap-hint">toca el corazón</p>
+
+    <div class="message-area">
+      <div class="message-box" id="msgBox">
+        <p class="message-text" id="msgText"></p>
+        <p class="message-author" id="msgAuthor"></p>
+      </div>
+    </div>
+
+    <p class="counter" id="counter"></p>
   </div>
 
-  <div class="dots" id="dots"></div>
-</div>
-
-<script>
-  const messages = [
-    { text: "M'encanten els teus ulls", author: "— siempre" },
-    { text: "Me encanta tu risa de tetera y de cerdito", author: "— de verdad" },
-    { text: "Me gustas más cada día", author: "— en serio" },
-    { text: "No sé cómo explicarlo, solo sé que eres tú", author: "— siempre tú" },
-    { text: "Gracias por existir exactamente como eres", author: "— con todo mi corazón" },
-    { text: "Ojalá pudieras verte como yo te veo", author: "— te aceituno" },
-    { text: "M'enamores més cada día", author: "— sin duda" },
-    { text: "Me gusta compartir gustos y hobbies", author: "— te amo"},
-    { text: "Las paradas improvisadas en un viaje", author: "— sin duda"},
-    { text: "Enseñarte rincones de Castellón", author: "— con todo mi corazón"},
-    { text: "Tú paciencia", author: "— vale millones"},
-    { text: "Eres mi hogar y mi lugar seguro", author: "— siempre"},
-    { text: "Me encanta nuestro futuro juntas", author: "— de verdad"},
-    { text: "Tus detalles más inesperados", author: "— sin duda"},
-    { text: "Como me miras, haces que me olvide de lo malo", author: "- te quiamo"},
-    { text: "Eres mi personita favorita", author: "— siempre"},
-    { text: "Amo todo de ti", author: "— de verdad"},
-    { text: "Me pierdo en ti", author: "— en serio"}
-  ];
-
-  let current = -1;
-  const heartBtn  = document.getElementById('heartBtn');
-  const msgBox    = document.getElementById('msgBox');
-  const msgText   = document.getElementById('msgText');
-  const msgAuthor = document.getElementById('msgAuthor');
-  const dotsEl    = document.getElementById('dots');
-
-  // Build dots
-  messages.forEach((_, i) => {
-    const d = document.createElement('div');
-    d.className = 'dot';
-    d.id = 'dot-' + i;
-    dotsEl.appendChild(d);
-  });
-
-  function updateDots() {
-    messages.forEach((_, i) => {
-      document.getElementById('dot-' + i).classList.toggle('active', i === current);
-    });
-  }
-
-  function showMessage() {
-    current = (current + 1) % messages.length;
-    const m = messages[current];
-
-    msgBox.classList.remove('visible');
-    setTimeout(() => {
-      msgText.textContent   = m.text;
-      msgAuthor.textContent = m.author;
-      msgBox.classList.add('visible');
-      updateDots();
-    }, 350);
-  }
-
-  heartBtn.addEventListener('click', (e) => {
-    showMessage();
-    spawnBurst(e.clientX, e.clientY);
-  });
-
-  // Touch support
-  heartBtn.addEventListener('touchend', (e) => {
-    e.preventDefault();
-    const t = e.changedTouches[0];
-    showMessage();
-    spawnBurst(t.clientX, t.clientY);
-  }, { passive: false });
-
-  // Burst particles
-  function spawnBurst(x, y) {
-    const container = document.createElement('div');
-    container.className = 'burst';
-    container.style.left = x + 'px';
-    container.style.top  = y + 'px';
-    document.body.appendChild(container);
-
-    const count = 10;
-    for (let i = 0; i < count; i++) {
-      const el = document.createElement('span');
-      el.className = 'burst-heart';
-      el.textContent = '♥';
-      el.style.color = `hsl(${340 + Math.random()*30}, 80%, ${60 + Math.random()*20}%)`;
-      const angle = (i / count) * Math.PI * 2;
-      const dist  = 50 + Math.random() * 70;
-      el.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
-      el.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
-      el.style.animationDelay = Math.random() * 0.1 + 's';
-      container.appendChild(el);
-    }
-
-    setTimeout(() => container.remove(), 1200);
-  }
-
-  // Floating petals
-  const petalContainer = document.getElementById('petals');
-  const PETALS = ['🌻', '🌻', '🌻', '✿', '🌼'];
-  function spawnPetal() {
-    const p = document.createElement('span');
-    p.className = 'petal';
-    p.textContent = PETALS[Math.floor(Math.random() * PETALS.length)];
-    p.style.left     = Math.random() * 100 + 'vw';
-    p.style.fontSize = (16 + Math.random() * 14) + 'px';
-    p.style.color    = `hsl(${330 + Math.random()*40}, 70%, ${60 + Math.random()*20}%)`;
-    p.style.animationDuration  = (8 + Math.random() * 12) + 's';
-    p.style.animationDelay     = (Math.random() * 6) + 's';
-    petalContainer.appendChild(p);
-    setTimeout(() => p.remove(), 22000);
-  }
-
-  for (let i = 0; i < 18; i++) spawnPetal();
-  setInterval(spawnPetal, 1800);
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
