@@ -391,3 +391,134 @@ body::before {
   0%   { transform: translate(0,0) scale(0.5); opacity: 1; }
   100% { transform: translate(var(--dx), var(--dy)) scale(1.2); opacity: 0; }
 }
+
+.lock-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.lock-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--blush);
+  font-size: 1.4rem;
+  opacity: 0.8;
+}
+
+.lock-question {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--cream);
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  text-align: center;
+  max-width: 300px;
+  line-height: 1.5;
+  opacity: 0.75;
+}
+
+.lock-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(212,165,116,0.4);
+  color: var(--cream);
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  text-align: center;
+  letter-spacing: 0.2em;
+  padding: 0.4rem 0.8rem;
+  outline: none;
+  width: 220px;
+  transition: border-color 0.3s;
+}
+
+.lock-input:focus {
+  border-color: rgba(212,165,116,0.9);
+}
+
+.lock-error {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.75rem;
+  color: var(--blush);
+  opacity: 0;
+  transition: opacity 0.3s;
+  letter-spacing: 0.1em;
+}
+
+.lock-error.visible {
+  opacity: 0.7;
+}
+
+/* Ocultar el contenido principal hasta que se desbloquee */
+.scene {
+  transition: opacity 0.8s ease;
+}
+
+.scene.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.contador-dias {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  opacity: 0;
+  animation: fadeIn 1.5s ease 1s forwards;
+  margin-top: -1.5rem;
+}
+
+.quiero-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  opacity: 0.2;
+  transition: opacity 0.3s;
+  margin-top: -1rem;
+}
+
+.quiero-btn:hover {
+  opacity: 0.6;
+}
+
+.quiero-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.quiero-mensaje {
+  position: fixed;
+  inset: 0;
+  z-index: 201;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.quiero-mensaje.visible {
+  opacity: 1;
+}
+
+.quiero-mensaje p {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  color: var(--cream);
+  text-shadow: 0 0 40px rgba(78,203,110,0.8);
+  text-align: center;
+  padding: 1rem;
+}

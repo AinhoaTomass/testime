@@ -1,3 +1,80 @@
+//--- Contraseña --------------------------------
+const PASSWORD = "te aceituno";
+
+const lockScreen = document.getElementById('lockScreen');
+const lockInput   = document.getElementById('lockInput');
+const lockError   = document.getElementById('lockError');
+const scene = document.querySelector('.scene');
+
+let intentosFallidos = 0;
+
+scene.classList.add('hidden');
+
+lockInput.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+
+      if (lockInput.value.trim().toLowerCase() === PASSWORD) {
+        //Contraseña correcta: ocultar pantalla y mostrar contenido
+        lockScreen.style.opacity = '0';
+        lockScreen.style.transition = 'opacity 0.6s ease';
+        setTimeout(() => lockScreen.style.display = 'none', 600);
+        scene.classList.remove('hidden');
+      } else {
+        intentosFallidos++;
+        lockInput.value = '';
+
+        if (intentosFallidos === 1) {
+          lockError.textContent = 'me siento ofendida';
+        } else if (intentosFallidos === 2) {
+          lockError.textContent = `Llevas ${intentosFallidos} intentos, EN SERIO?`;
+        } else {
+          lockError.textContent = `Llevas ${intentosFallidos} intentos, me está pareciendo fatal esto`;
+        }
+
+        lockError.classList.add('visible');
+        setTimeout(() => lockError.classList.remove('visible'), 4000);
+      }
+    }
+)
+
+//---- Contador de días juntas ---------------
+const FECHA_INICIO = new Date('2024-12-31');
+
+const hoy = new Date();
+const diff = hoy - FECHA_INICIO;
+const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+document.getElementById('contadorDias').textContent = `Llevamos ${dias} días juntas`;
+
+//---- Modo te quiero mucho -----------------------
+const quieroBtn = document.getElementById('quieroBtn');
+
+//Añadir los contenedores al body dinámicamente
+const quieroOverlay = document.createElement('div');
+quieroOverlay.className = 'quiero-overlay';
+document.body.appendChild(quieroOverlay);
+
+const quieroMensaje = document.createElement('div');
+quieroMensaje.className = 'quiero-mensaje';
+quieroMensaje.innerHTML = '<p>Te amo infinito 🌻</p>';
+document.body.appendChild(quieroMensaje);
+
+quieroBtn.addEventListener('click', () => {
+  //Mostrar mensaje
+  quieroMensaje.classList.add('visible');
+
+  //Lanzar 60 girasoles de golpe
+  for (let i = 0; i < 60; i++) {
+    setTimeout(() => spawnPetal(), i * 30);
+  }
+
+  //Vibración larga
+  if ('vibrate' in navigator) navigator.vibrate([100, 50, 100]);
+
+  //Quitar mensaje después de 3 segundos
+  setTimeout(() => quieroMensaje.classList.remove('visible'), 3000);
+})
+
 // ── Messages ──────────────────────────────────────────────
 const messages = [
   { text: "M'encanten els teus ulls", author: "— siempre" },

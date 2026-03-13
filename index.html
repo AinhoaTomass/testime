@@ -19,9 +19,17 @@
     <span class="special-text" id="specialText"></span>
   </div>
 
+  <div class="lock-screen" id="lockScreen">
+    <p class="lock-title">Acceso</p>
+    <p class="lock-question">¿Qué nos dijimos antes de te quiero?</p>
+    <input class="lock-input" id="lockInput" type="text" placeholder="escribe la respuesta..." autocomplete="off">
+    <p class="lock-error" id="lockError"></p>
+  </div>
+
   <!-- Main scene -->
   <div class="scene">
     <p class="subtitle">T'estime</p>
+    <p class="contador-dias" id="contadorDias"></p>
 
     <div class="heart-wrapper" id="heartBtn" title="Toca el corazón">
       <div class="heart-glow"></div>
@@ -54,6 +62,7 @@
     <p class="counter" id="counter"></p>
 
     <button class="carta-btn" id="cartaBtn">✉ leer la carta</button>
+    <button class="quiero-btn" id="quieroBtn">🌻</button>
   </div>
 
   <!-- Carta modal -->
