@@ -30,17 +30,17 @@ const SPECIAL_DATES = [
   {
     check: (d, m, lastDay) => m === 12 && d === 31,
     icon: "🥂",
-    text: "Feliz aniversario, mi vida. Un año más juntas.",
+    text: "Feliz aniversario, mi vida. Un año más juntas y los que quedan",
   },
   {
     check: (d, m, lastDay) => m === 7 && d === 29,
     icon: "🎂",
-    text: "Feliz cumpleaños, personita. Que sea un día tan bonito como tú.",
+    text: "Feliz cumpleaños, mi reina. Espero que tengas un día tan bonito como tú",
   },
   {
     check: (d, m, lastDay) => d === lastDay,
     icon: "🌻",
-    text: "Último día del mes. Solo quería recordarte que te quiero.",
+    text: "Último día del mes y un mes más contigo. Solo quería recordarte que te quiero",
   },
 ];
 
