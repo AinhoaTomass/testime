@@ -209,16 +209,16 @@ function spawnBurst(x, y) {
 
 // ── Carta content ─────────────────────────────────────────
 const carta = {
-  dear: "Para ti,",
+  dear: "Para mi reina,",
   paragraphs: [
     "Hay cosas que a veces no sé cómo decirte en voz alta, así que las escribo aquí, donde puedo tomarme el tiempo de encontrar las palabras.",
-    "Desde que estás en mi vida todo tiene más color. No es que antes fuera gris, pero contigo las cosas brillan de otra manera. Me gusta cómo me escuchas, cómo te ríes, cómo eres exactamente quien eres sin pedirte permiso a nadie.",
+    "Desde que estás en mi vida todo tiene más color. No es que antes fuera gris, pero contigo las cosas brillan de otra manera. Me gusta cómo me escuchas, cómo te ríes, cómo eres exactamente quien eres sin pedirle permiso a nadie.",
     "Me gusta que compartimos cosas pequeñas. Que puedo enseñarte un rincón de Castellón y que lo mires con los mismos ojos que yo. Que haya paradas improvisadas en los viajes. Que tu risa de tetera sea una de mis cosas favoritas del mundo.",
     "Gracias por tu paciencia. Por ser mi lugar seguro. Por hacer que me olvide de lo malo solo con mirarme.",
     "No sé muy bien qué nos depara el futuro, pero sé que quiero que estés en él. Me encanta nuestro futuro juntas.",
     "T'estime molt.",
   ],
-  firma: "— siempre tuya 🌻",
+  firma: "— siempre tuya 🍊",
 };
 
 // Render carta into the DOM
